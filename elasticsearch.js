@@ -8,12 +8,11 @@ function Elasticsearch(n) {
     this.service = new Service("elasticsearch", ref.replicate(n));
 
     if (n > 1) {
-        var hosts = this.service.children();
-        var hostsStr = hosts.join(",");
+        var hosts = this.service.children().join(",");
         this.service.containers.forEach(function(c, i) {
             c.command.push(
-                "--discovery.zen.ping.unicast.hosts", hostsStr,
-                "--network.host", hosts[i]
+                "--discovery.zen.ping.unicast.hosts", hosts,
+                "--network.host", "0.0.0.0"
             );
         });
     }
