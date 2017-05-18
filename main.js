@@ -1,4 +1,5 @@
-var Elasticsearch = require("github.com/quilt/elasticsearch").Elasticsearch;
+const {createDeployment, Machine} = require("@quilt/quilt");
+var Elasticsearch = require("./elasticsearch.js").Elasticsearch;
 
 var clusterSize = 2;
 

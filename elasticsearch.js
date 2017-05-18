@@ -1,3 +1,5 @@
+const {Container, Service, publicInternet, PortRange} = require("@quilt/quilt");
+
 function Elasticsearch(n) {
     var ref = new Container("elasticsearch:2.4",
         [
