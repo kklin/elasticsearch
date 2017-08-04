@@ -17,7 +17,7 @@ function Elasticsearch(n) {
     });
   }
 
-  this.service.connect(this.transportPorts, this.service);
+  this.service.allowFrom(this.service, this.transportPorts);
 }
 
 Elasticsearch.prototype.uri = function uri() {
@@ -25,7 +25,7 @@ Elasticsearch.prototype.uri = function uri() {
 };
 
 Elasticsearch.prototype.allowFromPublic = function allowFromPublic() {
-  publicInternet.connect(this.port, this.service);
+  this.service.allowFrom(publicInternet, this.port);
   return this;
 };
 
