@@ -30,7 +30,7 @@ Elasticsearch.prototype.allowFromPublic = function allowFromPublic() {
 };
 
 Elasticsearch.prototype.addClient = function addClient(clnt) {
-  clnt.connect(this.port, this.service);
+  this.service.allowFrom(clnt, this.port);
 };
 
 Elasticsearch.prototype.deploy = function deploy(depl) {
