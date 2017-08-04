@@ -1,6 +1,6 @@
 {
   "name": "@quilt/elasticsearch",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "./elasticsearch.js",
   "license": "MIT",
   "dependencies": {

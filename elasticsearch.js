@@ -24,7 +24,7 @@ Elasticsearch.prototype.uri = function uri() {
   return `http://${this.service.hostname()}:${this.port}`;
 };
 
-Elasticsearch.prototype.public = function public() {
+Elasticsearch.prototype.allowFromPublic = function allowFromPublic() {
   publicInternet.connect(this.port, this.service);
   return this;
 };
