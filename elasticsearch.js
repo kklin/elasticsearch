@@ -12,7 +12,7 @@ function Elasticsearch(n) {
     ],
   });
   this.containers = ref.replicate(n);
-  this.service = new quilt.Service('elasticsearch-lb', this.containers);
+  this.loadBalancer = new quilt.LoadBalancer('elasticsearch-lb', this.containers);
 
   if (n > 1) {
     const hosts = this.containers.map(getHostname).join(',');
@@ -27,7 +27,7 @@ function Elasticsearch(n) {
 }
 
 Elasticsearch.prototype.uri = function uri() {
-  return `http://${this.service.hostname()}:${this.port}`;
+  return `http://${this.loadBalancer.hostname()}:${this.port}`;
 };
 
 Elasticsearch.prototype.allowFromPublic = function allowFromPublic() {
@@ -36,12 +36,12 @@ Elasticsearch.prototype.allowFromPublic = function allowFromPublic() {
 };
 
 Elasticsearch.prototype.addClient = function addClient(clnt) {
-  this.service.allowFrom(clnt, this.port);
+  this.loadBalancer.allowFrom(clnt, this.port);
 };
 
 Elasticsearch.prototype.deploy = function deploy(depl) {
   depl.deploy(this.containers);
-  depl.deploy(this.service);
+  depl.deploy(this.loadBalancer);
 };
 
 Elasticsearch.prototype.transportPorts = new quilt.PortRange(9300, 9400);
