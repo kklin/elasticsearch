@@ -1,4 +1,4 @@
-const { createDeployment, Machine } = require('@quilt/quilt');
+const { createDeployment, Machine } = require('kelda');
 const Elasticsearch = require('./elasticsearch.js').Elasticsearch;
 
 const clusterSize = 2;

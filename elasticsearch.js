@@ -1,4 +1,4 @@
-const quilt = require('@quilt/quilt');
+const kelda = require('kelda');
 
 function getHostname(c) {
   return c.getHostname();
@@ -7,14 +7,14 @@ function getHostname(c) {
 function Elasticsearch(n) {
   this.containers = [];
   for (let i = 0; i < n; i += 1) {
-    this.containers.push(new quilt.Container('elasticsearch', 'elasticsearch:2.4', {
+    this.containers.push(new kelda.Container('elasticsearch', 'elasticsearch:2.4', {
       command: [
         '--transport.tcp.port', `${this.transportPorts.min}-${this.transportPorts.max}`,
         '--http.port', this.port.toString(),
       ],
     }));
   }
-  this.loadBalancer = new quilt.LoadBalancer('elasticsearch-lb', this.containers);
+  this.loadBalancer = new kelda.LoadBalancer('elasticsearch-lb', this.containers);
 
   if (n > 1) {
     const hosts = this.containers.map(getHostname).join(',');
@@ -25,7 +25,7 @@ function Elasticsearch(n) {
     });
   }
 
-  quilt.allow(this.containers, this.containers, this.transportPorts);
+  kelda.allow(this.containers, this.containers, this.transportPorts);
 }
 
 Elasticsearch.prototype.uri = function uri() {
@@ -33,7 +33,7 @@ Elasticsearch.prototype.uri = function uri() {
 };
 
 Elasticsearch.prototype.allowFromPublic = function allowFromPublic() {
-  quilt.allow(quilt.publicInternet, this.containers, this.port);
+  kelda.allow(kelda.publicInternet, this.containers, this.port);
   return this;
 };
 
@@ -46,7 +46,7 @@ Elasticsearch.prototype.deploy = function deploy(depl) {
   this.loadBalancer.deploy(depl);
 };
 
-Elasticsearch.prototype.transportPorts = new quilt.PortRange(9300, 9400);
+Elasticsearch.prototype.transportPorts = new kelda.PortRange(9300, 9400);
 Elasticsearch.prototype.port = 9200;
 
 exports.Elasticsearch = Elasticsearch;
